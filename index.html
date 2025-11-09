@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ГАПС — Гибкие автоматизированные производственные системы</title>
+  <meta name="description" content="ГАПС — конструктор малотоннажных установок (1 до 1000 т/год) с универсальными модулями для быстрого запуска и эффективного использования производственных мощностей." />
+  <meta property="og:title" content="ГАПС — гибкие автоматизированные производственные системы"/>
+  <meta property="og:description" content="Конструктор малотоннажных установок: от идеи до опытных серий. Автоматизация, SCADA, совместимые интерфейсы."/>
+  <meta property="og:type" content="website"/>
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    /* =============================
+       ДИЗАЙН: цвета и шрифты
+       ---------------------------------
+       Вставьте реальные значения из PDF-листовки:
+       1) Замените HEX-переменные ниже на фирменные цвета (пипеткой из PDF/изображения)
+       2) Подключите фирменные шрифты через @font-face (woff2 рядом с index.html)
+    ============================== */
+    :root {
+      /* TODO: заменить на точные фирменные цвета */
+      --brand: #0B3D91;      /* основной цвет */
+      --brand-2: #2A6EEA;    /* акцент/градиент */
+      --text: #111111;       
+      --muted: #5A5A5A;
+      --bg: #FFFFFF;
+      --surface: #F6F7FA;
+      --ok: #12A150;
+      --line: #E6E8EF;
+      --shadow: 0 10px 30px rgba(0,0,0,.07);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --maxw: 1200px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #ECEEF3;
+        --muted: #B7BDCA;
+        --bg: #0E1116;
+        --surface: #151923;
+        --line: #222739;
+        --shadow: 0 10px 30px rgba(0,0,0,.35);
+      }
+    }
+
+    /* Пример подключения фирменных шрифтов */
+    /*
+    @font-face {
+      font-family: 'BrandDisplay';
+      src: url('./fonts/BrandDisplay.woff2') format('woff2');
+      font-weight: 600 800; font-display: swap;
+    }
+    @font-face {
+      font-family: 'BrandText';
+      src: url('./fonts/BrandText.woff2') format('woff2');
+      font-weight: 300 700; font-display: swap;
+    }
+    */
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      line-height: 1.55; letter-spacing: .1px;
+    }
+    a { color: var(--brand-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+    .btn { display: inline-flex; align-items: center; gap: .6rem; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--line);
+           background: linear-gradient(180deg, var(--brand), var(--brand-2)); color: #fff; font-weight: 600; box-shadow: var(--shadow);
+    }
+    .btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+
+    /* ======= Header / Навигация ======= */
+    header.site {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(120%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display:flex; align-items:center; gap: .75rem; font-weight: 800; letter-spacing: .4px; }
+    .brand-mark { width: 36px; height: 36px; border-radius: 12px;
+      background: conic-gradient(from 210deg, var(--brand), var(--brand-2));
+      box-shadow: var(--shadow);
+    }
+    .menu { display:flex; gap: 22px; align-items:center; }
+    .menu a { color: var(--muted); font-weight: 600; }
+    .menu a:hover { color: var(--text); }
+
+    /* ======= Hero ======= */
+    .hero { position: relative; padding: clamp(48px, 9vw, 120px) 0; }
+    .hero .grid { display:grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(24px, 4vw, 48px); align-items: center; }
+    .kicker { color: var(--brand-2); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
+    h1 { font-size: clamp(28px, 5vw, 56px); line-height: 1.08; margin: 10px 0 16px; }
+    .lead { font-size: clamp(16px, 2.2vw, 20px); color: var(--muted); max-width: 60ch; }
+    .hero-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+    .hero-metrics { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+    .metric { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px; }
+    .metric .n { font-size: 28px; font-weight: 800; }
+    .metric .d { color: var(--muted); font-size: 13px; }
+
+    /* ======= Sections ======= */
+    section { padding: min(8vw, 88px) 0; border-top: 1px solid var(--line); }
+    h2 { font-size: clamp(22px, 3.2vw, 34px); margin: 0 0 14px; }
+    .sub { color: var(--muted); max-width: 70ch; margin-bottom: 26px; }
+
+    .cards { display:grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .card { grid-column: span 6; background: var(--surface); border:1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    .list { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .tag { background: var(--surface); border:1px solid var(--line); padding: 10px 12px; border-radius: 999px; text-align: center; font-weight: 600; }
+
+    .cta { display:flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ======= Footer ======= */
+    footer { border-top: 1px solid var(--line); padding: 24px 0 48px; color: var(--muted); }
+    .contacts { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+
+    /* ======= Responsive ======= */
+    @media (max-width: 960px) {
+      .hero .grid { grid-template-columns: 1fr; }
+      .cards .card { grid-column: span 12; }
+      .list { grid-template-columns: 1fr; }
+      .contacts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ======= Навигация ======= -->
+  <header class="site">
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>ГАПС</div>
+      </div>
+      <nav class="menu" aria-label="Главная навигация">
+        <a href="#about">О проекте</a>
+        <a href="#why">Почему мы</a>
+        <a href="#compounds">Соединения</a>
+        <a href="#automation">Автоматизация</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ======= Hero ======= -->
+  <section class="hero" id="home">
+    <div class="wrap">
+      <div class="grid">
+        <div>
+          <div class="kicker">Гибкие автоматизированные производственные системы</div>
+          <h1>Конструктор малотоннажных установок с неограниченным ассортиментом</h1>
+          <p class="lead">Оптимальны для объёмов от 1 до 1&nbsp;000 тонн/год. За счёт универсальности модулей и подбора продуктов мы быстрее запускаем производство и кратно эффективнее используем установку.</p>
+          <div class="cta" style="margin-top: 18px">
+            <a class="btn" href="#contacts">Обсудить проект</a>
+            <a class="btn secondary" href="#about">Подробнее</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Ключевые показатели">
+          <div class="hero-metrics">
+            <div class="metric"><div class="n">400+ млн ₽</div><div class="d">Проекты от идеи до опытных серий</div></div>
+            <div class="metric"><div class="n">10+ прототипов</div><div class="d">и пилотных установок</div></div>
+            <div class="metric"><div class="n">4 технологии</div><div class="d">тонкой химии</div></div>
+            <div class="metric"><div class="n">20 специалистов</div><div class="d">от НИР до маркетинга</div></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= О проекте ======= -->
+  <section id="about">
+    <div class="wrap">
+      <h2>Что такое ГАПС</h2>
+      <p class="sub">ГАПС — это набор совместимых модулей и интерфейсов, позволяющий собирать под задачу эффективные малотоннажные производственные линии, масштабируемые под нужный ассортимент и объём.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Гибкость ассортимента</h3>
+          <p>Универсальные модули и стандартные интерфейсы позволяют быстро переключаться между продуктами.</p>
+        </div>
+        <div class="card">
+          <h3>Быстрый запуск</h3>
+          <p>Инженерный конструктор и готовые блоки сокращают сроки проектирования и ввода в эксплуатацию.</p>
+        </div>
+        <div class="card">
+          <h3>Эффективность</h3>
+          <p>Кратное повышение загрузки и окупаемости установки за счёт универсальности.</p>
+        </div>
+        <div class="card">
+          <h3>Масштабирование</h3>
+          <p>Оптимально для объёмов от 1 до 1&nbsp;000 т/год, с возможностью поэтапного наращивания мощности.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Почему мы ======= -->
+  <section id="why">
+    <div class="wrap">
+      <h2>Почему мы это умеем</h2>
+      <p class="sub">Опыт разработки и запуска производств от НИР до опытных партий.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Опыт 400+ млн ₽</h3>
+          <p>Проекты «от идеи до первых опытных серий» с суммарным бюджетом более 400 млн рублей.</p>
+        </div>
+        <div class="card">
+          <h3>4 технологии тонкой химии</h3>
+          <p>Знаем узкие места и лучшие практики для отрасли.</p>
+        </div>
+        <div class="card">
+          <h3>10+ прототипов</h3>
+          <p>Пилотные установки и эксперименты, доведённые до реальных показателей.</p>
+        </div>
+        <div class="card">
+          <h3>Команда 20 человек</h3>
+          <p>Компетенции от фундаментальных исследований до маркетинга.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Соединения ======= -->
+  <section id="compounds">
+    <div class="wrap">
+      <h2>С какими соединениями работаем</h2>
+      <p class="sub">Перечень направлений, в которых уже накоплены наработки.</p>
+      <div class="list" aria-label="направления">
+        <div class="tag">Азокрасители</div>
+        <div class="tag">N-оксидные ПАВ</div>
+        <div class="tag">Производные пиридина</div>
+        <div class="tag">Электросинтез реактивов</div>
+        <div class="tag">Литий- и магнийорганический синтез</div>
+        <div class="tag">Фасовочные устройства</div>
+      </div>
+      <p style="margin-top:16px">Также можем разработать ГАПС под ваши соединения.</p>
+    </div>
+  </section>
+
+  <!-- ======= Автоматизация ======= -->
+  <section id="automation">
+    <div class="wrap">
+      <h2>Автоматизация и SCADA</h2>
+      <p class="sub">Синтез на одном оборудовании, единая SCADA‑система и совместимые интерфейсы — для безопасной и предсказуемой эксплуатации.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>SCADA‑система</h3>
+          <p>Мониторинг, управление, архив событий и интеграция с ИС предприятия.</p>
+        </div>
+        <div class="card">
+          <h3>Совместимые интерфейсы</h3>
+          <p>Стандартизованная обвязка, «горячая» замена модулей и прозрачное масштабирование.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Контакты ======= -->
+  <section id="contacts">
+    <div class="wrap">
+      <h2>Связаться с нами</h2>
+      <div class="contacts">
+        <div>
+          <p><strong>Telegram:</strong> <a href="https://t.me/danilovstepan" target="_blank" rel="noopener">@danilovstepan</a></p>
+          <p><strong>Телефон:</strong> <a href="tel:+79817932377">+7 (981) 793‑23‑77</a></p>
+          <p><strong>Почта:</strong> <a href="mailto:ai.chem@yandex.ru">ai.chem@yandex.ru</a></p>
+          <p><strong>Сайт:</strong> <a href="#home">на главную</a></p>
+        </div>
+        <form class="card" onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами.');">
+          <h3 style="margin-top:0">Заявка на консультацию</h3>
+          <div style="display:grid; gap:12px">
+            <label>Имя<br/>
+              <input required name="name" style="width:100%; padding:12px; border-radius: 10px; border:1px solid var(--line); background: var(--bg); color: var(--text)">
+            </label>
+            <label>Контакт (телефон/почта)<br/>
+              <input required name="contact" style="width:100%; padding:12px; border-radius: 10px; border:1px solid var(--line); background: var(--bg); color: var(--text)">
+            </label>
+            <label>Кратко о задаче<br/>
+              <textarea name="msg" rows="4" style="width:100%; padding:12px; border-radius: 10px; border:1px solid var(--line); background: var(--bg); color: var(--text)"></textarea>
+            </label>
+            <button class="btn" type="submit">Отправить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="y"></span> ГАПС. Все права защищены.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Текущий год в подвале
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
